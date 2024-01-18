@@ -5,10 +5,9 @@
   "main": "first-script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "k6": "k6 run first-script.js"
+    "k6": "k6 run testFile.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC"
 }
-

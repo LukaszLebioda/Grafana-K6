@@ -1,6 +1,6 @@
 // general import of K6
 import http from 'k6/http'
-// import of sleep function used to tell k6 that it should wait
+// import of sleep function (see below)
 import { sleep } from 'k6'
 
 // an object to specify number of vu's and test duration
