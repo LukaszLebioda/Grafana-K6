@@ -1,3 +1,5 @@
+//----------
+
 // // SMOKE TEST
 // import http from "k6/http";
 // import { sleep } from "k6";
@@ -71,4 +73,64 @@
 // 	],
 // }
 
+// export default function () {
+// 	http.get("https://test.k6.io");
+// 	sleep(1);
+// 	http.get("https://test.k6.io/contacts.php");
+// 	sleep(2);
+// 	http.get("https://test.k6.io/news.php");
+// 	sleep(2);
+// }
+
 //----------
+
+// BREAKPOINT TEST
+// import http from "k6/http";
+// import { sleep } from "k6";
+
+// export const options = {
+// 	stages: [
+// 		{
+// 			duration: "2h", // ramp up: VERY LONG
+// 			target: 100000, // ramp up: a very high value, so that our app breaks long before reaching it
+// 		},
+// 	],
+// };
+
+// export default function () {
+// 	// only one website is OK, like home page etc.
+// 	http.get("https://test.k6.io");
+// 	sleep(1);
+// }
+
+//-----------
+
+// // SOAK TEST
+// import http from "k6/http";
+// import { sleep } from "k6";
+
+// export const options = {
+// 	stages: [
+// 		{
+// 			duration: "5m", // this stage stay can stay the same as in a typical load test
+// 			target: 10, // ramp up
+// 		},
+// 		{
+// 			duration: "24h", // this stage is extended
+// 			target: 1000,
+// 		},
+// 		{
+// 			duration: "5m", // this stage stay can stay the same as in a typical load test
+// 			target: 0, // ramp down
+// 		},
+// 	],
+// };
+
+// export default function () {
+// 	http.get("https://test.k6.io");
+// 	sleep(1);
+// 	http.get("https://test.k6.io/contacts.php");
+// 	sleep(2);
+// 	http.get("https://test.k6.io/news.php");
+// 	sleep(2);
+// }
