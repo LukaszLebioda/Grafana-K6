@@ -1,3 +1,5 @@
+// sleep function (e.g. sleep(2) => make test sleep (pause) for 2 sec after each iteration
+
 //----------
 
 // // SMOKE TEST
