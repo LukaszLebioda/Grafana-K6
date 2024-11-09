@@ -1,5 +1,16 @@
-let arr = [1, 2, 3, 4, 5, 6, 7];
-console.log(0 in arr);
+let a = 12;
+const txt = "Kasia";
 
-let date = new Date(2030, 12, 15);
-if (date instanceof Date) console.log(123);
+if (true) {
+	let a = 100;
+	const txt = "Zosia";
+
+	console.log("local: ", a, txt);
+}
+
+console.log("global: ", a, txt);
+
+for (let i = 0; i < 3; i++) {
+	let a = 56;
+	console.log("for", i, a);
+}

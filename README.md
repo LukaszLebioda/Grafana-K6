@@ -5,6 +5,7 @@ brew install k6
 # running the tests
 
 k6 run filename.js
+npm run k6
 
 # vocabulary
 
