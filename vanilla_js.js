@@ -1,16 +1,7 @@
-let a = 12;
-const txt = "Kasia";
-
-if (true) {
-	let a = 100;
-	const txt = "Zosia";
-
-	console.log("local: ", a, txt);
+function multiply(a, b) {
+	const result = a * b;
+	return result;
 }
 
-console.log("global: ", a, txt);
-
-for (let i = 0; i < 3; i++) {
-	let a = 56;
-	console.log("for", i, a);
-}
+const result = multiply(1234, 1234);
+console.log(multiply(120, 56));
