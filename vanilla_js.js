@@ -1,7 +1,8 @@
-function multiply(a, b) {
-	const result = a * b;
-	return result;
+function createPC(cpu, gpu, ram, disc) {
+	return {
+		cpu: cpu,
+		gpu: gpu,
+		ram: ram,
+		disc: disc,
+	};
 }
-
-const result = multiply(1234, 1234);
-console.log(multiply(120, 56));
