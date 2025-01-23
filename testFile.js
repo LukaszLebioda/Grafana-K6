@@ -5,6 +5,7 @@
 import http from "k6/http";
 import { check, sleep, group } from "k6";
 import { Counter, Trend } from "k6/metrics"; // for custom metrics
+import exec from "k6/execution"; // for aborting
 
 export const options = {
 	// ---------------------------------------
@@ -23,6 +24,7 @@ export const options = {
 		// regular, global thresholds metrics
 		// in-build metric_name: ["metric_type: trend, counter, rate, gauge]<>value"]
 		http_req_duration: ["p(95)<500"], // trend: 95% reqs should be < 300 ms
+		"http_req_duration{expected_response:true}": ["p(95)<500"], // special tag to filter responses with 2xx-3xx status codes
 		http_req_duration: ["max<3000"], // trend: 100% reqs should be < 3000 ms
 		http_reqs: ["count>5"], // counter: at least 5 reqs have to be sent
 		iterations: ["count>5"], // counter: at least 5 iterations have to be made
@@ -57,6 +59,12 @@ export const options = {
 		"checks{page:order}": ["rate>=0.99"],
 		// other tags, provided as params at the custom metric itself
 		"my_counter_errors{page:order}": ["count==0"],
+
+		// ---------------------------------------
+
+		// tags for groups (yes, tripple colon...)
+		"group_duration{group:::main group}": ["p(95)<2000"],
+		"group_duration{group:::main group::nested group}": ["p(95)<2000"],
 	},
 };
 
@@ -69,7 +77,11 @@ let httpErrors = new Counter("my_counter_errors");
 
 // ---------------------------------------
 
-export default function () {
+// virtual user stage -> code within default function
+// will be executed for each virtual user (execution = iteration)
+// data is being returned by setup function (below)
+export default function (data) {
+	// console.log(data);
 	let response = http.get("https://test.k6.io/"); // use const, if variable is not re-used
 	// console.log(response.status, response.body);
 
@@ -122,8 +134,12 @@ export default function () {
 
 	// ---------------------------------------
 
-	group("group", function () {
+	group("main group", function () {
 		const response = http.get("https://test.k6.io/contacts.php");
+		// mocky.io -> mocked request with delay
+		// const response = http.get(
+		// 	"https://run.mocky.io/v3/98098e47-d067-4ae8-b7ee-a17fc8ff70a9?mocky-delay=5000ms"
+		// );
 
 		check(response, {
 			"status code is 200": (res) => res.status === 200,
@@ -133,7 +149,28 @@ export default function () {
 			// requests can be made also for .css files or .js files or any other static assets
 			// just locate a file in network devtools, right click and open in new tab
 			http.get("https://test.k6.io/static/css/site.css");
-			http.get("https://test.k6.io/static/js/prisms.js");
+			http.get("https://run.mocky.io/v3/93311983-b1dd-49bb-bfd1-9308f84044b6");
 		});
 	});
+}
+
+// setup function is called only once per test execution,
+// before default function is executed
+// it's often used to fetch test data from somwhere
+// or to abort test when environment is not ready
+export function setup() {
+	console.log("Hello from the setup function :)");
+	const data = { foo: "bar" };
+	return data;
+	// let res = http.get("https://test.k6.non-existing-url");
+	// if (res.error) {
+	// 	exec.test.abort("Aborting the test from setup function");
+	// }
+}
+
+// setup function is called only once at the end of test execution,
+// it is used for cleaning up, removing environment etc.
+// it also has access to data produced by setup function
+export function teardown(data) {
+	console.log("Hello from the teardown function :)");
 }
