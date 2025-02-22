@@ -1,13 +1,14 @@
 {
-  "name": "coding40-k6",
-  "version": "1.0.0",
-  "description": "",
-  "main": "first-script.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "k6": "k6 run testFile.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+	"name": "coding40-k6",
+	"version": "1.0.0",
+	"description": "",
+	"main": "first-script.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"k6": "k6 run testFile.js",
+		"k6debug": "k6 run --http-debug='full' testfile.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
 }
